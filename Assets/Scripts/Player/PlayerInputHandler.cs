@@ -21,6 +21,11 @@ public class PlayerInputHandler : MonoBehaviour
             _isDashing = true;
         }
 
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = controller.gameObject.transform.position.z;
+        Transform playerTransform = controller.gameObject.transform;
+        if (_isHovering) Debug.DrawRay(playerTransform.position, playerTransform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(mousePosition)));
+
         controller.Move(_isHovering, _isDashing);
     }
 

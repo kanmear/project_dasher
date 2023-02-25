@@ -34,9 +34,12 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             Debug.Log("dashing!");
-            Debug.Log(Input.mousePosition);
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = transform.position.z;
+            Vector3 targetPosition = transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(mousePosition));
+            Vector3 delta = targetPosition - transform.position;
 
-            Vector3 targetVelocity = new Vector2(_rigidbody2D.velocity.x, _dashForce);
+            Vector3 targetVelocity = new Vector2(delta.x * 1f, delta.y * 1f);
             _rigidbody2D.velocity = targetVelocity;
         }
 
