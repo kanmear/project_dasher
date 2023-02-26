@@ -261,10 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf4608717e289647bf2e2f845b61f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 2
-  _movementSmoothing: 0.05
+  _dashForce: 3
   _stoppingSmoothing: 0.15
-  _airControl: 0
   _groundLayer:
     serializedVersion: 2
     m_Bits: 2147483647
