@@ -1,61 +1,64 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _dashForce = 100f;
-    [Range(0, .3f)][SerializeField] private float _movementSmoothing = .05f;
-    [Range(0, .3f)][SerializeField] private float _stoppingSmoothing = .05f;
-    [SerializeField] private bool _airControl = false;
+    [SerializeField] private float _dashForce = 2f;
+    [Range(0, 1.0f)][SerializeField] private float _stoppingSmoothing = .05f;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _groundCheck;
-    [SerializeField] private bool _isGrounded;
 
-    const float _groundCheckRadius = .1f;
+    private bool _isGrounded;
     private Rigidbody2D _rigidbody2D;
-    private Vector3 _velocity = Vector3.zero;
+    private Transform _transform;
+    private Vector2 _velocity = Vector2.zero;
+    private Camera _camera;
 
     void Awake()
     {
+        _transform = transform;
+        _camera = Camera.main;
+        _groundCheck.position = new Vector2(_transform.position.x, _transform.position.y - (GetComponent<CircleCollider2D>().radius + 0.1f));
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        Collider2D collider = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
-        _isGrounded = collider.gameObject != gameObject
-            ? true
-            : false;
+        _isGrounded = Physics2D.OverlapPoint(_groundCheck.position, _groundLayer);
     }
 
     public void Move(bool isHovering, bool isDashing)
     {
         if (isDashing)
         {
-            Debug.Log("dashing!");
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = transform.position.z;
-            Vector3 targetPosition = transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(mousePosition));
-            Vector3 delta = targetPosition - transform.position;
+            Vector2 mousePosition = Input.mousePosition;
+            Vector2 targetPosition = _camera.ScreenToWorldPoint(mousePosition);
+            Vector2 delta = targetPosition - (Vector2)transform.position;
 
-            Vector3 targetVelocity = new Vector2(delta.x * 1f, delta.y * 1f);
-            _rigidbody2D.velocity = targetVelocity;
+            Vector2 targetVelocity = delta * _dashForce;
+            _rigidbody2D.velocity = delta * _dashForce;
         }
 
         if (isHovering)
         {
-            Debug.Log("hovering");
-
             _rigidbody2D.gravityScale = 0;
-            Vector3 targetVelocity = new Vector2(0, 0);
-            _rigidbody2D.velocity = Vector3.SmoothDamp(
+
+            Vector2 targetVelocity;
+            if (_isGrounded)
+            {
+                Vector2 targetPosition = new Vector2(transform.position.x, transform.position.y + 1);
+                Vector2 delta = targetPosition - (Vector2)transform.position;
+                targetVelocity = delta;
+            }
+            else
+            {
+                targetVelocity = Vector2.zero;
+            }
+
+            _rigidbody2D.velocity = Vector2.SmoothDamp(
                 _rigidbody2D.velocity, targetVelocity, ref _velocity, _stoppingSmoothing);
         }
         else
         {
-            Debug.Log("freefall");
-
             _rigidbody2D.gravityScale = 1;
         }
     }
