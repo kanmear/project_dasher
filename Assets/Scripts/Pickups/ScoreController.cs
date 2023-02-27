@@ -3,11 +3,15 @@ using UnityEngine;
 public class ScoreController : MonoBehaviour
 {
     [SerializeField] GameObject _scorePickupPrefab;
+    public GameObject _scoreUIObject;
+    private ScoreTextUI _scoreTextUI;
     private int _score = 0;
     private float _maxModX;
     private float _maxModY;
     void Start()
     {
+        _scoreTextUI = _scoreUIObject.GetComponent<ScoreTextUI>();
+
         int mapLayer = LayerMask.GetMask("Map");
 
         float pickupRadius = _scorePickupPrefab.GetComponent<CircleCollider2D>().radius;
@@ -23,7 +27,7 @@ public class ScoreController : MonoBehaviour
 
     public void collectScorePickup(GameObject scorePickup)
     {
-        _score++;
+        _scoreTextUI.updateScore(++_score);
         GameObject.Destroy(scorePickup);
 
         Vector2 pos = new Vector2(
