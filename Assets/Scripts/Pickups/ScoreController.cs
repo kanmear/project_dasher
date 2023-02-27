@@ -25,9 +25,10 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void collectScorePickup(GameObject scorePickup)
+    public void collectScorePickup(GameObject scorePickup, int bounceCount)
     {
-        _scoreTextUI.updateScore(++_score);
+        _score += 1 * bounceCount > 0 ? bounceCount : 1;
+        _scoreTextUI.updateScore(_score);
         GameObject.Destroy(scorePickup);
 
         Vector2 pos = new Vector2(

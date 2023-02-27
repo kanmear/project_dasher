@@ -6,24 +6,48 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1.0f)][SerializeField] private float _stoppingSmoothing = .05f;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Transform _groundCheck;
+    [SerializeField] private GameObject _scoreControllerObject;
+    private ScoreController _scoreController;
 
     private bool _isGrounded;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
     private Vector2 _velocity = Vector2.zero;
     private Camera _camera;
+    private int _bounceCount = 0;
 
     void Awake()
     {
+        _scoreController = _scoreControllerObject.GetComponent<ScoreController>();
         _transform = transform;
         _camera = Camera.main;
-        _groundCheck.position = new Vector2(_transform.position.x, _transform.position.y - (GetComponent<CircleCollider2D>().radius + 0.1f));
+        _groundCheck.position = new Vector2(_transform.position.x, _transform.position.y - (GetComponent<CircleCollider2D>().radius + 0.2f));
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         _isGrounded = Physics2D.OverlapPoint(_groundCheck.position, _groundLayer);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        if (collision2D.GetContact(0).normal.Equals(Vector3.up))
+        {
+            _bounceCount = 0;
+        }
+        else
+            _bounceCount++;
+    }
+
+    void OnCollisionExit2D(Collision2D collision2D)
+    {
+        //TODO: ground check here
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        _scoreController.collectScorePickup(collider.gameObject, _bounceCount);
     }
 
     public void Move(bool isHovering, bool isDashing)
