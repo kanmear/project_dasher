@@ -8,12 +8,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _scoreControllerObject;
     private ScoreController _scoreController;
 
-    private bool _isGrounded;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
     private Vector2 _velocity = Vector2.zero;
     private Camera _camera;
     private int _bounceCount = 0;
+    private bool _hoverInput;
+    private bool _dashInput;
+
+    private enum _states
+    {
+        GROUNDED,
+        HOVERING,
+        DASHING,
+        RICOCHETING,
+    }
+
+    private _states _playerState;
 
     void Awake()
     {
@@ -25,22 +36,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Move();
     }
 
     void OnCollisionEnter2D(Collision2D collision2D)
     {
         if (collision2D.GetContact(0).normal.Equals(Vector3.up))
         {
-            _isGrounded = true;
+            _playerState = _states.GROUNDED;
             _bounceCount = 0;
         }
         else
+        {
             _bounceCount++;
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision2D)
     {
-        _isGrounded = false;
+        _playerState = _states.RICOCHETING;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -48,9 +62,9 @@ public class PlayerController : MonoBehaviour
         _scoreController.collectScorePickup(collider.gameObject, _bounceCount);
     }
 
-    public void Move(bool isHovering, bool isDashing)
+    private void Move()
     {
-        if (isDashing)
+        if (_dashInput)
         {
             Vector2 mousePosition = Input.mousePosition;
             Vector2 targetPosition = _camera.ScreenToWorldPoint(mousePosition);
@@ -58,17 +72,19 @@ public class PlayerController : MonoBehaviour
 
             Vector2 targetVelocity = delta * _dashForce;
             _rigidbody2D.velocity = delta * _dashForce;
-        }
 
-        if (isHovering)
+            _playerState = _states.DASHING;
+        }
+        else if (_hoverInput)
         {
             _rigidbody2D.gravityScale = 0;
 
             Vector2 targetVelocity;
-            if (_isGrounded)
+            if (_playerState == _states.GROUNDED)
             {
                 Vector2 targetPosition = new Vector2(_transform.position.x, _transform.position.y + 4);
                 Vector2 delta = targetPosition - (Vector2)_transform.position;
+                _rigidbody2D.velocity = delta;
                 targetVelocity = delta;
             }
             else
@@ -78,10 +94,15 @@ public class PlayerController : MonoBehaviour
 
             _rigidbody2D.velocity = Vector2.SmoothDamp(
                 _rigidbody2D.velocity, targetVelocity, ref _velocity, _stoppingSmoothing);
+
+            _playerState = _states.HOVERING;
         }
         else
         {
             _rigidbody2D.gravityScale = 1;
         }
     }
+
+    public void setHoverInput(bool hoverInput) => _hoverInput = hoverInput;
+    public void setDashInput(bool dashInput) => _dashInput = dashInput;
 }
