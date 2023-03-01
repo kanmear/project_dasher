@@ -59,7 +59,10 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        _scoreController.collectScorePickup(collider.gameObject, _bounceCount);
+        _scoreController.updateScore(
+            collider.gameObject,
+            _bounceCount,
+            _playerState == _states.RICOCHETING ? true : false);
     }
 
     private void Move()

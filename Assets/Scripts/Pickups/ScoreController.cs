@@ -25,10 +25,26 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void collectScorePickup(GameObject scorePickup, int bounceCount)
+    public void updateScore(GameObject scorePickup, int bounceCount, bool isRicochet)
     {
-        _score += 1 * bounceCount > 0 ? bounceCount : 1;
+        reinstantiateScorePickup(scorePickup);
+        calculateScore(bounceCount, isRicochet);
+    }
+
+    private void calculateScore(int bounceCount, bool isRicochet)
+    {
+        Debug.Log("current score is: " + _score
+            + "\n bounce count: " + bounceCount
+            + "\n ricochet: " + isRicochet);
+
+        _score +=
+            (1 + bounceCount)
+            * (isRicochet ? 2 : 1);
         _scoreTextUI.updateScore(_score);
+    }
+
+    private void reinstantiateScorePickup(GameObject scorePickup)
+    {
         GameObject.Destroy(scorePickup);
 
         Vector2 pos = new Vector2(
