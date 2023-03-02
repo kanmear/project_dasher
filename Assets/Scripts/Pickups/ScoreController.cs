@@ -1,15 +1,20 @@
+using TMPro;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
     [SerializeField] GameObject _scorePickupPrefab;
+    [SerializeField] GameObject _bonusPointsTextUIPrefab;
+    [SerializeField] GameObject _canvas;
     public GameObject _scoreUIObject;
     private ScoreTextUI _scoreTextUI;
+    private Camera _camera;
     private int _score = 0;
     private float _maxModX;
     private float _maxModY;
     void Start()
     {
+        _camera = Camera.main;
         _scoreTextUI = _scoreUIObject.GetComponent<ScoreTextUI>();
 
         int mapLayer = LayerMask.GetMask("Map");
@@ -17,29 +22,31 @@ public class ScoreController : MonoBehaviour
         float pickupRadius = _scorePickupPrefab.GetComponent<CircleCollider2D>().radius;
         float amplitude = _scorePickupPrefab.GetComponent<ScorePickup>().getAmplitude();
 
-        _maxModX = Physics2D.Raycast(Vector2.zero, Vector2.right, float.PositiveInfinity, mapLayer).distance - pickupRadius;
-        _maxModY = Physics2D.Raycast(Vector2.zero, Vector2.up, float.PositiveInfinity, mapLayer).distance - (pickupRadius + amplitude);
+        _maxModX = Physics2D.Raycast(
+            Vector2.zero, Vector2.right, float.PositiveInfinity, mapLayer).distance - pickupRadius;
+        _maxModY = Physics2D.Raycast(
+            Vector2.zero, Vector2.up, float.PositiveInfinity, mapLayer).distance - (pickupRadius + amplitude);
     }
 
     void Update()
     {
     }
 
-    public void updateScore(GameObject scorePickup, int bounceCount, bool isRicochet)
+    public void updateScore(GameObject scorePickup, int bounceCount, int ricochetCount)
     {
+        displayBonusPointsUI(bounceCount, ricochetCount, scorePickup.transform.position);
         reinstantiateScorePickup(scorePickup);
-        calculateScore(bounceCount, isRicochet);
+        calculateScore(bounceCount, ricochetCount);
     }
 
-    private void calculateScore(int bounceCount, bool isRicochet)
+    private void calculateScore(int bounceCount, int ricochetCount)
     {
         Debug.Log("current score is: " + _score
             + "\n bounce count: " + bounceCount
-            + "\n ricochet: " + isRicochet);
+            + "\n ricochet count: " + ricochetCount);
 
-        _score +=
-            (1 + bounceCount)
-            * (isRicochet ? 2 : 1);
+        _score += (1 + bounceCount)
+            * (ricochetCount > 0 ? ricochetCount + 1 : 1);
         _scoreTextUI.updateScore(_score);
     }
 
@@ -52,4 +59,27 @@ public class ScoreController : MonoBehaviour
             Random.Range(-_maxModY, _maxModY));
         GameObject.Instantiate(_scorePickupPrefab, pos, Quaternion.identity);
     }
+
+    private void displayBonusPointsUI(int bounceCount, int ricochetCount, Vector2 position)
+    {
+        if (bounceCount > 0)
+        {
+            GameObject bounceBonusText = GameObject.Instantiate(
+                _bonusPointsTextUIPrefab, Vector2.zero, Quaternion.identity);
+            bounceBonusText.transform.SetParent(_canvas.transform, false);
+            bounceBonusText.GetComponent<TextMeshProUGUI>().SetText("bounce bonus x" + bounceCount);
+            bounceBonusText.GetComponent<RectTransform>().position = _camera.WorldToScreenPoint(
+                new Vector2(position.x, position.y));
+        }
+        if (ricochetCount > 0)
+        {
+            GameObject ricochetBonusText = GameObject.Instantiate(
+                _bonusPointsTextUIPrefab, Vector2.zero, Quaternion.identity);
+            ricochetBonusText.transform.SetParent(_canvas.transform, false);
+            ricochetBonusText.GetComponent<TextMeshProUGUI>().SetText("ricochet bonus x" + ricochetCount);
+            ricochetBonusText.GetComponent<RectTransform>().position = _camera.WorldToScreenPoint(
+                new Vector2(position.x, position.y + 0.3f));
+        }
+    }
+
 }

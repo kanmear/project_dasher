@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _velocity = Vector2.zero;
     private Camera _camera;
     private int _bounceCount = 0;
+    private int _ricochetCount = 0;
     private bool _hoverInput;
     private bool _dashInput;
 
@@ -45,10 +46,17 @@ public class PlayerController : MonoBehaviour
         {
             _playerState = _states.GROUNDED;
             _bounceCount = 0;
+            // should this count as a ricochet?
+            _ricochetCount = 0;
         }
         else
         {
             _bounceCount++;
+
+            if (_playerState == _states.DASHING)
+                _ricochetCount = 1;
+            else if (_playerState == _states.RICOCHETING)
+                _ricochetCount++;
         }
     }
 
@@ -62,7 +70,7 @@ public class PlayerController : MonoBehaviour
         _scoreController.updateScore(
             collider.gameObject,
             _bounceCount,
-            _playerState == _states.RICOCHETING ? true : false);
+            _ricochetCount);
     }
 
     private void Move()
@@ -80,6 +88,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (_hoverInput)
         {
+            _ricochetCount = 0;
             _rigidbody2D.gravityScale = 0;
 
             Vector2 targetVelocity;

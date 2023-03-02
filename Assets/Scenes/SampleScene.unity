@@ -606,6 +606,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scorePickupPrefab: {fileID: 887887650587722623, guid: d1b18b8e49a46bd4ca368bad005dd6c0, type: 3}
+  _bonusPointsTextUIPrefab: {fileID: 2199385685475008195, guid: 2cf4ef7bb1a65fa4fada0abb830d0bdc, type: 3}
+  _canvas: {fileID: 1612521460}
   _scoreUIObject: {fileID: 1749648794}
 --- !u!4 &962456458
 Transform:
