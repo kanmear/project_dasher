@@ -35,10 +35,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        Move();
-    }
+    void Update() => Move();
 
     void OnCollisionEnter2D(Collision2D collision2D)
     {
@@ -46,7 +43,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerState = _states.GROUNDED;
             _bounceCount = 0;
-            // should this count as a ricochet?
             _ricochetCount = 0;
         }
         else
@@ -60,10 +56,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision2D)
-    {
-        _playerState = _states.RICOCHETING;
-    }
+    void OnCollisionExit2D(Collision2D collision2D) => _playerState = _states.RICOCHETING;
 
     void OnTriggerEnter2D(Collider2D collider)
     {

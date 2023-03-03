@@ -15,9 +15,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         _leftClickUp = false;
         if (Input.GetButtonUp("Left Click"))
-        {
             _leftClickUp = true;
-        }
 
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = controller.gameObject.transform.position.z;

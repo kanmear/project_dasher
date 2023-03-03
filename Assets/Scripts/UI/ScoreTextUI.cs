@@ -17,17 +17,11 @@ public class ScoreTextUI : MonoBehaviour
     void Update()
     {
         if (_rectTransform.localScale.x > _maxTextScale)
-        {
             _rectTransform.localScale = Vector3.one * _maxTextScale;
-        }
         else if (_rectTransform.localScale.x > 1)
-        {
             _rectTransform.localScale -= Vector3.one * _shrinkModifier;
-        }
         else if (_rectTransform.localScale.x < 1)
-        {
             _rectTransform.localScale = Vector3.one;
-        }
     }
 
     public void updateScore(int score)

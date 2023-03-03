@@ -22,8 +22,5 @@ public class ScorePickup : MonoBehaviour
             0f, Mathf.Sin(Time.time * _oscillationFrequency) * _amplitudeMultiplier);
     }
 
-    public float getAmplitude()
-    {
-        return _amplitudeMultiplier;
-    }
+    public float getAmplitude() => _amplitudeMultiplier;
 }

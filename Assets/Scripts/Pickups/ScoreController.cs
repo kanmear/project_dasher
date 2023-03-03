@@ -63,23 +63,19 @@ public class ScoreController : MonoBehaviour
     private void displayBonusPointsUI(int bounceCount, int ricochetCount, Vector2 position)
     {
         if (bounceCount > 0)
-        {
-            GameObject bounceBonusText = GameObject.Instantiate(
-                _bonusPointsTextUIPrefab, Vector2.zero, Quaternion.identity);
-            bounceBonusText.transform.SetParent(_canvas.transform, false);
-            bounceBonusText.GetComponent<TextMeshProUGUI>().SetText("bounce bonus x" + bounceCount);
-            bounceBonusText.GetComponent<RectTransform>().position = _camera.WorldToScreenPoint(
-                new Vector2(position.x, position.y));
-        }
+            instantiateBonusText("bounce bonus x", bounceCount, position);
         if (ricochetCount > 0)
-        {
-            GameObject ricochetBonusText = GameObject.Instantiate(
-                _bonusPointsTextUIPrefab, Vector2.zero, Quaternion.identity);
-            ricochetBonusText.transform.SetParent(_canvas.transform, false);
-            ricochetBonusText.GetComponent<TextMeshProUGUI>().SetText("ricochet bonus x" + ricochetCount);
-            ricochetBonusText.GetComponent<RectTransform>().position = _camera.WorldToScreenPoint(
+            instantiateBonusText("ricochet bonus x", ricochetCount,
                 new Vector2(position.x, position.y + 0.3f));
-        }
     }
 
+    private void instantiateBonusText(string text, int bonusCount, Vector2 position)
+    {
+        GameObject bonusText = GameObject.Instantiate(
+            _bonusPointsTextUIPrefab, Vector2.zero, Quaternion.identity);
+        bonusText.transform.SetParent(_canvas.transform, false);
+        bonusText.GetComponent<TextMeshProUGUI>().SetText(text + bonusCount);
+        bonusText.GetComponent<RectTransform>().position = _camera.WorldToScreenPoint(
+            new Vector2(position.x, position.y));
+    }
 }

@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class BonusPointsTextUI : MonoBehaviour
 {
+    [SerializeField] private float _timeModifier = 1f;
+    [SerializeField] private float _movementModifier = 0.1f;
     private TextMeshProUGUI _textMesh;
     private RectTransform _rectTransform;
+
     void Awake()
     {
         _textMesh = gameObject.GetComponent<TextMeshProUGUI>();
@@ -18,7 +21,9 @@ public class BonusPointsTextUI : MonoBehaviour
         if (color.a <= 0)
             GameObject.Destroy(gameObject);
 
-        _textMesh.color = new Color(color.r, color.g, color.b, color.a - (Time.deltaTime));
-        _rectTransform.position = new Vector2(_rectTransform.position.x, _rectTransform.position.y + 0.1f);
+        _textMesh.color = new Color(color.r, color.g, color.b, color.a - (Time.deltaTime * _timeModifier));
+        _rectTransform.position = new Vector2(
+            _rectTransform.position.x,
+            _rectTransform.position.y + _movementModifier);
     }
 }
