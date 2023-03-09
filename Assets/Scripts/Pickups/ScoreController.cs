@@ -41,9 +41,9 @@ public class ScoreController : MonoBehaviour
 
     private void calculateScore(int bounceCount, int ricochetCount)
     {
-        Debug.Log("current score is: " + _score
-            + "\n bounce count: " + bounceCount
-            + "\n ricochet count: " + ricochetCount);
+        // Debug.Log("current score is: " + _score
+        //     + "\n bounce count: " + bounceCount
+        //     + "\n ricochet count: " + ricochetCount);
 
         _score += (1 + bounceCount)
             * (ricochetCount > 0 ? ricochetCount + 1 : 1);

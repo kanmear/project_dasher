@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PointerHandler : MonoBehaviour
@@ -14,6 +15,28 @@ public class PointerHandler : MonoBehaviour
     }
 
     void Update()
+    {
+        manageVisibiliy();
+        manageColor();
+    }
+
+    private void manageColor()
+    {
+        if (!_isVisible)
+            return;
+
+        Color color = _spriteRenderer.color;
+        float distance = Vector2.Distance(_camera.ScreenToWorldPoint(Input.mousePosition),
+            _transform.position);
+        Debug.Log(distance / 10);
+        _spriteRenderer.color = new Color(
+            color.r,
+            Mathf.Clamp(1f / distance, 0, 1),
+            Mathf.Clamp(2f / distance, 0, 1),
+            Mathf.Clamp(0.1f * distance, 0.5f, 1));
+    }
+
+    private void manageVisibiliy()
     {
         if (_isVisible)
         {
