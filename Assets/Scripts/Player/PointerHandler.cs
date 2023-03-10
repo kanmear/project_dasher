@@ -28,7 +28,6 @@ public class PointerHandler : MonoBehaviour
         Color color = _spriteRenderer.color;
         float distance = Vector2.Distance(_camera.ScreenToWorldPoint(Input.mousePosition),
             _transform.position);
-        Debug.Log(distance / 10);
         _spriteRenderer.color = new Color(
             color.r,
             Mathf.Clamp(1f / distance, 0, 1),
