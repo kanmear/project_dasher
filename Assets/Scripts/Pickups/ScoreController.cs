@@ -32,6 +32,13 @@ public class ScoreController : MonoBehaviour
     {
     }
 
+    public void hello(Component sender, object data)
+    {
+        // TODO: check structs to use instead of tuple
+        (int Bounce, int Ricochet) _data = ((int Bounce, int Ricochet))data;
+        updateScore(sender.gameObject, _data.Bounce, _data.Ricochet);
+    }
+
     public void updateScore(GameObject scorePickup, int bounceCount, int ricochetCount)
     {
         displayBonusPointsUI(bounceCount, ricochetCount, scorePickup.transform.position);

@@ -116,4 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _amplitudeMultiplier: 0.1
   _oscillationFrequency: 2.5
-  _scoreController: {fileID: 0}
+  _scoreCollected: {fileID: 11400000, guid: 0573a812d8494b440ad487da80c961dd, type: 2}

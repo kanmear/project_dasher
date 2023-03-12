@@ -203,8 +203,9 @@ GameObject:
   - component: {fileID: 55928114}
   - component: {fileID: 55928113}
   - component: {fileID: 55928112}
-  - component: {fileID: 55928116}
   - component: {fileID: 55928117}
+  - component: {fileID: 55928116}
+  - component: {fileID: 55928118}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -334,7 +335,6 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 2147483647
-  _scoreControllerObject: {fileID: 962456456}
 --- !u!114 &55928117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +348,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointerObject: {fileID: 1363729311}
+--- !u!114 &55928118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55928111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b2fe3f12c07c4418d34b485044cee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,6 +599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 962456458}
   - component: {fileID: 962456457}
+  - component: {fileID: 962456459}
   m_Layer: 0
   m_Name: ScoreController
   m_TagString: Untagged
@@ -625,6 +638,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &962456459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962456456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca384d257ee5804c8ab839c86e83545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 0573a812d8494b440ad487da80c961dd, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 962456457}
+        m_TargetAssemblyTypeName: ScoreController, Assembly-CSharp
+        m_MethodName: hello
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1354154539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,6 +1899,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 887887650587722618, guid: d1b18b8e49a46bd4ca368bad005dd6c0, type: 3}
+      propertyPath: _scoreCollected
+      value: 
+      objectReference: {fileID: 11400000, guid: 0573a812d8494b440ad487da80c961dd, type: 2}
     - target: {fileID: 887887650587722618, guid: d1b18b8e49a46bd4ca368bad005dd6c0, type: 3}
       propertyPath: _scoreController
       value: 
