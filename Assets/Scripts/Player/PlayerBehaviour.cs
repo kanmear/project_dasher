@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     private PlayerStates _playerState;
     private int _bounceCount = 0;
     private int _ricochetCount = 0;
+    public static event Action<GameObject, int, int> ScoreCollected;
 
     void Update()
     {
@@ -30,6 +32,12 @@ public class PlayerBehaviour : MonoBehaviour
                 _ricochetCount++;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        ScoreCollected?.Invoke(collider.gameObject, _bounceCount, _ricochetCount);
+    }
+
 
     void OnCollisionExit2D(Collision2D collision2D) => _playerState = PlayerStates.RICOCHETING;
 
