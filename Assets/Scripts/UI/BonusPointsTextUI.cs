@@ -12,7 +12,6 @@ public class BonusPointsTextUI : MonoBehaviour
     {
         _textMesh = gameObject.GetComponent<TextMeshProUGUI>();
         _rectTransform = gameObject.GetComponent<RectTransform>();
-        Debug.Log(_textMesh);
     }
 
     void Update()

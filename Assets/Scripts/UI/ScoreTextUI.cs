@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ScoreTextUI : MonoBehaviour
 {
-    [SerializeField] float _embiggementModifier = 0.5f;
-    [SerializeField] float _maxTextScale = 1.5f;
-    [SerializeField] float _shrinkModifier = 0.1f;
+    [SerializeField] private float _embiggementModifier = 0.5f;
+    [SerializeField] private float _maxTextScale = 1.5f;
+    [SerializeField] private float _shrinkModifier = 0.1f;
     private TextMeshProUGUI _textMesh;
     private RectTransform _rectTransform;
     void Start()

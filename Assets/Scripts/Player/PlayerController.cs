@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
             Vector2 targetVelocity = delta * _dashForce;
             _rigidbody2D.velocity = delta * _dashForce;
 
+            // TODO: remove player behaviour
             _playerBehaviour.setPlayerState(
                 PlayerStates.DASHING
             );

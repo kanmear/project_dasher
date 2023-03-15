@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    [SerializeField] GameObject _scorePickupPrefab;
-    [SerializeField] GameObject _bonusPointsTextUIPrefab;
-    [SerializeField] GameObject _canvas;
-    public GameObject _scoreUIObject;
+    [SerializeField] private GameObject _scorePickupPrefab;
+    [SerializeField] private GameObject _bonusPointsTextUIPrefab;
+    [SerializeField] private GameObject _canvas;
     private ScoreTextUI _scoreTextUI;
     private Camera _camera;
     private int _score = 0;
     private float _maxModX;
     private float _maxModY;
+    public GameObject _scoreUIObject;
+
     void Start()
     {
         _camera = Camera.main;
@@ -34,13 +35,6 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void hello(Component sender, object data)
-    {
-        // TODO: check structs to use instead of tuple
-        // (int Bounce, int Ricochet) _data = ((int Bounce, int Ricochet))data;
-        // updateScore(sender.gameObject, _data.Bounce, _data.Ricochet);
-    }
-
     public void updateScore(GameObject scorePickup, int bounceCount, int ricochetCount)
     {
         displayBonusPointsUI(bounceCount, ricochetCount, scorePickup.transform.position);
@@ -50,9 +44,9 @@ public class ScoreController : MonoBehaviour
 
     private void calculateScore(int bounceCount, int ricochetCount)
     {
-        // Debug.Log("current score is: " + _score
-        //     + "\n bounce count: " + bounceCount
-        //     + "\n ricochet count: " + ricochetCount);
+        Debug.Log("current score is: " + _score
+            + "\n bounce count: " + bounceCount
+            + "\n ricochet count: " + ricochetCount);
 
         _score += (1 + bounceCount)
             * (ricochetCount > 0 ? ricochetCount + 1 : 1);

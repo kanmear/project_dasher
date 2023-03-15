@@ -3,8 +3,8 @@ using UnityEngine;
 public class ScorePickup : MonoBehaviour
 {
 
-    [SerializeField] float _amplitudeMultiplier = 0.5f;
-    [SerializeField] float _oscillationFrequency = 0.5f;
+    [SerializeField] private float _amplitudeMultiplier = 0.5f;
+    [SerializeField] private float _oscillationFrequency = 0.5f;
     private Vector2 _startPosition;
     private Transform _transform;
     private Collider2D _collider;

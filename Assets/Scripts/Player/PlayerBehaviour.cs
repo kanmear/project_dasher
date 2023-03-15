@@ -45,7 +45,4 @@ public class PlayerBehaviour : MonoBehaviour
     public void setPlayerState(PlayerStates state) => _playerState = state;
 
     public void setRicochetCount(int count) => _ricochetCount = count;
-
-    public (int Bounce, int Ricochet) getBounceAndRicochetCounts()
-        => (Bounce: _bounceCount, Ricochet: _ricochetCount);
 }
