@@ -35,7 +35,7 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void updateScore(GameObject scorePickup, int bounceCount, int ricochetCount)
+    public void updateScore(GameObject player, GameObject scorePickup, int bounceCount, int ricochetCount)
     {
         displayBonusPointsUI(bounceCount, ricochetCount, scorePickup.transform.position);
         reinstantiateScorePickup(scorePickup);
