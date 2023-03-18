@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,8 +24,28 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void Update() => Move();
+    void Update() 
+    {
+        Move();  
+        UpdatePlayerData();
+    }
 
+    private void UpdatePlayerData()
+    {
+        if (_dashInput)
+        {
+            _playerBehaviour.setPlayerState(
+                PlayerStates.DASHING
+            );
+        }
+        else if (_hoverInput)
+        {
+            _playerBehaviour.setRicochetCount(0);
+            _playerBehaviour.setPlayerState(
+                PlayerStates.HOVERING
+            );
+        }
+    }
 
     private void Move()
     {
@@ -37,14 +58,9 @@ public class PlayerController : MonoBehaviour
             Vector2 targetVelocity = delta * _dashForce;
             _rigidbody2D.velocity = delta * _dashForce;
 
-            // TODO: remove player behaviour
-            _playerBehaviour.setPlayerState(
-                PlayerStates.DASHING
-            );
         }
         else if (_hoverInput)
         {
-            _playerBehaviour.setRicochetCount(0);
             _rigidbody2D.gravityScale = 0;
 
             Vector2 targetVelocity;
@@ -62,10 +78,6 @@ public class PlayerController : MonoBehaviour
 
             _rigidbody2D.velocity = Vector2.SmoothDamp(
                 _rigidbody2D.velocity, targetVelocity, ref _velocity, _stoppingSmoothing);
-
-            _playerBehaviour.setPlayerState(
-                PlayerStates.HOVERING
-            );
         }
         else
         {
