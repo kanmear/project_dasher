@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashForce = 2f;
     [Range(0, 1.0f)][SerializeField] private float _stoppingSmoothing = .05f;
     [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private GameObject _hoverParticleObj;
+    private ParticleSystem _hoverParticleSys;
 
     private PlayerBehaviour _playerBehaviour;
     private Rigidbody2D _rigidbody2D;
@@ -22,12 +24,22 @@ public class PlayerController : MonoBehaviour
         _transform = transform;
         _camera = Camera.main;
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _hoverParticleSys = _hoverParticleObj.GetComponent<ParticleSystem>();
     }
 
     void Update() 
     {
         Move();  
         UpdatePlayerData();
+        HandleHoverParticles();
+    }
+
+    private void HandleHoverParticles()
+    {
+        if (_hoverInput && _hoverParticleSys.isStopped)
+            _hoverParticleSys.Play();
+        else if (!_hoverInput && _hoverParticleSys.isPlaying)
+            _hoverParticleSys.Stop();
     }
 
     private void UpdatePlayerData()
