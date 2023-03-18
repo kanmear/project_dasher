@@ -7,7 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     private PlayerStates _playerState;
     private int _bounceCount = 0;
     private int _ricochetCount = 0;
-    public static event Action<GameObject, GameObject, int, int> ScoreCollected;
+    public static event Action<PlayerCollisionData> ScoreCollected;
 
     void Update()
     {
@@ -35,8 +35,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        ScoreCollected?.Invoke(
-            gameObject, collider.gameObject, _bounceCount, _ricochetCount);
+        ScoreCollected?.Invoke(new PlayerCollisionData(
+            gameObject, collider, _bounceCount, _ricochetCount));
     }
 
 

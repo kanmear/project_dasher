@@ -35,11 +35,14 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void updateScore(GameObject player, GameObject scorePickup, int bounceCount, int ricochetCount)
+    public void updateScore(PlayerCollisionData playerData)
     {
-        displayBonusPointsUI(bounceCount, ricochetCount, scorePickup.transform.position);
-        reinstantiateScorePickup(scorePickup);
-        calculateScore(bounceCount, ricochetCount);
+        displayBonusPointsUI(
+            playerData.getBounceCount(), playerData.getRicochetCount(), playerData.getCollider().transform.position);
+        reinstantiateScorePickup(
+            playerData.getCollider().gameObject);
+        calculateScore(
+            playerData.getBounceCount(), playerData.getRicochetCount());
     }
 
     private void calculateScore(int bounceCount, int ricochetCount)
