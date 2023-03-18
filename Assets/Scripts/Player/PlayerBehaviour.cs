@@ -7,7 +7,8 @@ public class PlayerBehaviour : MonoBehaviour
     private PlayerStates _playerState;
     private int _bounceCount = 0;
     private int _ricochetCount = 0;
-    public static event Action<PlayerCollisionData> ScoreCollected;
+    public static event Action<PlayerTriggerData> ScoreCollected;
+    public static event Action<PlayerCollisionData> WallHit;
 
     void Update()
     {
@@ -31,11 +32,13 @@ public class PlayerBehaviour : MonoBehaviour
             else if (_playerState == PlayerStates.RICOCHETING)
                 _ricochetCount++;
         }
+        
+        WallHit?.Invoke(new PlayerCollisionData(collision2D, _bounceCount, _ricochetCount));
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        ScoreCollected?.Invoke(new PlayerCollisionData(
+        ScoreCollected?.Invoke(new PlayerTriggerData(
             gameObject, collider, _bounceCount, _ricochetCount));
     }
 

@@ -35,7 +35,7 @@ public class ScoreController : MonoBehaviour
     {
     }
 
-    public void updateScore(PlayerCollisionData playerData)
+    public void updateScore(PlayerTriggerData playerData)
     {
         displayBonusPointsUI(
             playerData.getBounceCount(), playerData.getRicochetCount(), playerData.getCollider().transform.position);
