@@ -5,11 +5,13 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private GameObject _pointerObject;
     private PlayerController _playerController;
     private PointerHandler _pointerHandler;
+    private Camera _camera;
     private bool _leftClickDown = false;
     private bool _leftClickUp = false;
 
     void Start()
     {
+        _camera = Camera.main;
         _playerController = gameObject.GetComponent<PlayerController>();
         _pointerHandler = _pointerObject.GetComponent<PointerHandler>();
     }
@@ -25,12 +27,14 @@ public class PlayerInputHandler : MonoBehaviour
             _leftClickUp = true;
 
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = _playerController.gameObject.transform.position.z;
+        Vector2 targetPosition = _camera.ScreenToWorldPoint(mousePosition);
         Transform playerTransform = _playerController.gameObject.transform;
         if (_leftClickDown) Debug.DrawRay(playerTransform.position, playerTransform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(mousePosition)));
 
         _playerController.setHoverInput(_leftClickDown);
-        _playerController.setDashInput(_leftClickUp);
+        _playerController.setDashInput(_leftClickUp 
+            ? targetPosition
+            : null);
 
         _pointerHandler.setVisible(_leftClickDown);
     }

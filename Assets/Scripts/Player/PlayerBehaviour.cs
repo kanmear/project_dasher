@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerController _playerController;
-    private PlayerStates _playerState;
+    private BallStates _playerState;
     private int _bounceCount = 0;
     private int _ricochetCount = 0;
     public static event Action<PlayerTriggerData> ScoreCollected;
@@ -19,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision2D.GetContact(0).normal.Equals(Vector3.up))
         {
-            _playerState = PlayerStates.GROUNDED;
+            _playerState = BallStates.GROUNDED;
             _bounceCount = 0;
             _ricochetCount = 0;
         }
@@ -27,9 +27,9 @@ public class PlayerBehaviour : MonoBehaviour
         {
             _bounceCount++;
 
-            if (_playerState == PlayerStates.DASHING)
+            if (_playerState == BallStates.DASHING)
                 _ricochetCount = 1;
-            else if (_playerState == PlayerStates.RICOCHETING)
+            else if (_playerState == BallStates.RICOCHETING)
                 _ricochetCount++;
         }
         
@@ -43,10 +43,10 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-    void OnCollisionExit2D(Collision2D collision2D) => _playerState = PlayerStates.RICOCHETING;
+    void OnCollisionExit2D(Collision2D collision2D) => _playerState = BallStates.RICOCHETING;
 
-    public PlayerStates getPlayerState() => _playerState;
-    public void setPlayerState(PlayerStates state) => _playerState = state;
+    public BallStates getPlayerState() => _playerState;
+    public void setPlayerState(BallStates state) => _playerState = state;
 
     public void setRicochetCount(int count) => _ricochetCount = count;
 }
