@@ -29,11 +29,8 @@ abstract public class BallController : MonoBehaviour
     {
         if (_dashInput != null)
         {
-            Vector2 delta = (Vector2)_dashInput - (Vector2)_transform.position;
-
-            Vector2 targetVelocity = delta * _dashForce;
-            _rigidbody2D.velocity = delta * _dashForce;
-
+            Vector2 targetVelocity = (Vector2)_dashInput - (Vector2)_transform.position;
+            _rigidbody2D.velocity = targetVelocity * _dashForce;
         }
         else if (_hoverInput)
         {
@@ -43,9 +40,8 @@ abstract public class BallController : MonoBehaviour
             if (GetState() == BallStates.GROUNDED)
             {
                 Vector2 targetPosition = new Vector2(_transform.position.x, _transform.position.y + 4);
-                Vector2 delta = targetPosition - (Vector2)_transform.position;
-                _rigidbody2D.velocity = delta;
-                targetVelocity = delta;
+                targetVelocity = targetPosition - (Vector2)_transform.position;
+                _rigidbody2D.velocity = targetVelocity;
             }
             else
             {

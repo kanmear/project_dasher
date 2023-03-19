@@ -37,10 +37,12 @@ public class ParticleController : MonoBehaviour
     }
 
     private void SpawnWallHitParticles(PlayerCollisionData playerCollisionData)
-    {
-        Vector2 localPosition = playerCollisionData.getCollision().GetContact(0).point;
-        Vector2 worldPosition = playerCollisionData.getCollision().transform.TransformPoint(localPosition);
-        Vector2 contactNormal = playerCollisionData.getCollision().GetContact(0).normal;
+    {   
+        Collision2D collision2D = playerCollisionData.getCollision();
+        ContactPoint2D contactPoint = collision2D.GetContact(0);
+        Vector2 localPosition = contactPoint.point;
+        Vector2 contactNormal = contactPoint.normal;
+        Vector2 worldPosition = collision2D.transform.TransformPoint(localPosition);
         Quaternion rotation = Quaternion.FromToRotation(Vector2.up, contactNormal);
         GameObject.Instantiate(
             _collisionParticles, worldPosition, rotation);
