@@ -13,7 +13,6 @@ abstract public class BallController : MonoBehaviour
     protected bool _hoverInput;
     protected Vector2? _dashInput = null;
 
-
     protected virtual void Awake()
     {
         _transform = transform;
@@ -63,6 +62,7 @@ abstract public class BallController : MonoBehaviour
         if (_dashInput != null)
         {
             SetState(BallStates.DASHING);
+            _dashInput = null;
         }
         else if (_hoverInput)
         {

@@ -32,9 +32,8 @@ public class PlayerInputHandler : MonoBehaviour
         if (_leftClickDown) Debug.DrawRay(playerTransform.position, playerTransform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(mousePosition)));
 
         _playerController.setHoverInput(_leftClickDown);
-        _playerController.setDashInput(_leftClickUp 
-            ? targetPosition
-            : null);
+        if (_leftClickUp)
+            _playerController.setDashInput(targetPosition);
 
         _pointerHandler.setVisible(_leftClickDown);
     }
