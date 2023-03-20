@@ -30,7 +30,7 @@ public class PlayerController : BallController
             _hoverParticleSys.Stop();
     }
 
-    override protected BallStates GetState() => _playerBehaviour.getPlayerState();
-    protected override void SetState(BallStates state) => _playerBehaviour.setPlayerState(state);
+    override protected BallStates GetState() => _playerBehaviour.getBallState();
+    protected override void SetState(BallStates state) => _playerBehaviour.setBallState(state);
     protected override void SetRicochetCount(int count) => _playerBehaviour.setRicochetCount(count);
 }

@@ -8,6 +8,6 @@ abstract public class BallBehaviour : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision2D) => _ballState = BallStates.RICOCHETING;
 
-    public BallStates getPlayerState() => _ballState;
-    public void setPlayerState(BallStates state) => _ballState = state;
+    public BallStates getBallState() => _ballState;
+    public void setBallState(BallStates state) => _ballState = state;
 }

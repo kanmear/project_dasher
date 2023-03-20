@@ -71,7 +71,7 @@ abstract public class BallController : MonoBehaviour
         }
     }
 
-    abstract protected void SetRicochetCount(int count);
+    virtual protected void SetRicochetCount(int count) {}
 
     abstract protected void SetState(BallStates state);
 
