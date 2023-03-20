@@ -19,7 +19,6 @@ public class PlayerController : BallController
     {   
         base.Update();
 
-        UpdatePlayerData();
         HandleHoverParticles();
     }
 
@@ -31,22 +30,7 @@ public class PlayerController : BallController
             _hoverParticleSys.Stop();
     }
 
-    private void UpdatePlayerData()
-    {
-        if (_dashInput != null)
-        {
-            _playerBehaviour.setPlayerState(
-                BallStates.DASHING
-            );
-        }
-        else if (_hoverInput)
-        {
-            _playerBehaviour.setRicochetCount(0);
-            _playerBehaviour.setPlayerState(
-                BallStates.HOVERING
-            );
-        }
-    }
-
     override protected BallStates GetState() => _playerBehaviour.getPlayerState();
+    protected override void SetState(BallStates state) => _playerBehaviour.setPlayerState(state);
+    protected override void SetRicochetCount(int count) => _playerBehaviour.setRicochetCount(count);
 }

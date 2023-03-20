@@ -23,6 +23,7 @@ abstract public class BallController : MonoBehaviour
     protected virtual void Update() 
     {
         Move();  
+        UpdateBallState();
     }
 
     protected void Move()
@@ -56,6 +57,23 @@ abstract public class BallController : MonoBehaviour
             _rigidbody2D.gravityScale = 1;
         }
     }
+
+    protected void UpdateBallState()
+    {
+        if (_dashInput != null)
+        {
+            SetState(BallStates.DASHING);
+        }
+        else if (_hoverInput)
+        {
+            SetRicochetCount(0);
+            SetState(BallStates.HOVERING);
+        }
+    }
+
+    abstract protected void SetRicochetCount(int count);
+
+    abstract protected void SetState(BallStates state);
 
     abstract protected BallStates GetState();
 
